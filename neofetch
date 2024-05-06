@@ -793,7 +793,7 @@ image_source="auto"
 #       gNewSense, GNOME, GNU, GoboLinux, Grombyang, Guix, Haiku, Huayra, HydroOS
 #       Hyperbola, iglunix, janus, Kali, KaOS, KDE_neon, Kibojoe, Kogaion, Korora,
 #       KSLinux, Kubuntu, LEDE, LaxerOS, LibreELEC, LFS, Linux_Lite, LMDE,
-#       Lubuntu, Lunar, MacaroniOS, macos, Mageia, MagpieOS, Mandriva, Manjaro, TeArch, Maui,
+#       Lubuntu, Lunar, macos, Mageia, MagpieOS, Mandriva, Manjaro, TeArch, Maui,
 #       Mer, Minix, LinuxMint, Live_Raizo, MX_Linux, Namib, Neptune, NetBSD,
 #       Netrunner, Nitrux, NixOS, Nurunner, NuTyX, OBRevenge, OpenBSD,
 #       openEuler, OpenIndiana, openmamba, OpenMandriva, OpenStage, OpenWrt,
@@ -1153,10 +1153,8 @@ get_distro() {
                 10.14*) codename="macOS Mojave" ;;
                 10.15*) codename="macOS Catalina" ;;
                 10.16*) codename="macOS Big Sur" ;;
-                11.*)   codename="macOS Big Sur" ;;
-                12.*)   codename="macOS Monterey" ;;
-                13.*)   codename="macOS Ventura" ;;
-                14.*)   codename="macOS Sonoma" ;;
+                11.*)  codename="macOS Big Sur" ;;
+                12.*)  codename="macOS Monterey" ;;
                 *)      codename=macOS ;;
             esac
 
@@ -1900,9 +1898,9 @@ get_wm() {
         *)         ps_flags=(-e) ;;
     esac
 
-   if tmp_pid="$(lsof -t "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)" ||
-           tmp_pid="$(fuser   "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>/dev/null)"; then
-            wm="$(ps -p ${tmp_pid} -ho comm=)"
+    if [[ -O "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" ]]; then
+        if tmp_pid="$(lsof -t "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>&1)" ||
+           tmp_pid="$(fuser   "${XDG_RUNTIME_DIR}/${WAYLAND_DISPLAY:-wayland-0}" 2>&1)"; then
             wm="$(ps -p "${tmp_pid}" -ho comm=)"
         else
             # lsof may not exist, or may need root on some systems. Similarly fuser.
@@ -4945,7 +4943,7 @@ get_process_name() {
         ;;
 
         "Linux")
-          name="$(< "/proc/${1:-$PPID}/cmdline")"
+            name="$(< "/proc/${1:-$PPID}/comm")"
         ;;
 
         *)
@@ -5166,7 +5164,7 @@ ASCII:
                                 sabotage, Sabayon, Sailfish, SalentOS, Scientific, Septor,
                                 SereneLinux, SharkLinux, Siduction, Slackware, SliTaz, SmartOS,
                                 Solus, Source_Mage, Sparky, Star, SteamOS, SunOS, openSUSE_Leap,
-                               t2, openSUSE_Tumbleweed, openSUSE, SwagArch, Tails, Tatra, Trisquel,
+                                t2, openSUSE_Tumbleweed, openSUSE, SwagArch, Tails, Trisquel,
                                 Ubuntu-Cinnamon, Ubuntu-Budgie, Ubuntu-GNOME, Ubuntu-MATE,
                                 Ubuntu-Studio, Ubuntu, Univention, Venom, Void, VNux, LangitKetujuh, semc,
                                 Obarun, windows10, Windows7, Xubuntu, Zorin, and IRIX have ascii logos.
@@ -11529,26 +11527,6 @@ oMMMMmMMMMNds:.+MMMmmMMN/.-odNMMMMmMMMM+
 EOF
                 ;;
 
-                "Tatra"*)
-                    set_colors 4 7
-                    read -rd '' ascii_data <<'EOF'
-${c1}
-         . .:. .         .:.            
-        .^^.!.:::.    .^!?J?^           
-      .:^.^!!!~:~^.  .7??77!~~^.        
-     .~^.!??77?!.^~:  ..:^^7JJJ7~~^.    
-     .^~.^7???7~.~~.   .7??????????!    
-      .:^:^^~^^:!^ ^:  .......^!:...    
-    .!7~.::.!.::. ~BG~    :^  ^~:       
-    :!!~   ~.    ?BBBB!  ^?J!.  .!~.    
-     :!. .JBY. .Y#BBBY?~!???J7. :^^.    
-     .. :5#B#P~P#BBP?7?55J?J7:          
-       ^P#BBBBBBBB5?7J5555J!.....       
-      !BBBBBBGBBGJ77::Y555J?77777^      
-     ?BBBBG5JJ5PJ?!:  .?Y??????77?~.    
-   .YBGPYJ??????Y?^^^^~7?????????7?!.   
-   .^^:..::::::::.....:::::::::::..:.  
-EOF
             esac
         ;;
     esac
